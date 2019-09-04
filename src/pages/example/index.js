@@ -1,15 +1,15 @@
 /**
  * title: Example Page
  */
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { connect } from 'dva';
-import { withRouter } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
 import ProductList from './common/ProductList';
 import styles from './styles.less';
 
 class Example extends Component {
   static defaultProps = {
-    text: ''
+    text: '',
   };
   constructor(props) {
     super(props);
@@ -17,17 +17,18 @@ class Example extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch({ type: 'example/init' })
+    this.props
+      .dispatch({ type: 'example/init' })
       .then(() => {})
       .finally(() => {});
-  };
+  }
 
   handleDelete = id => {
     this.props.dispatch({
       type: 'example/delete',
       payload: id,
     });
-  }
+  };
 
   render() {
     const { list } = this.props;
@@ -42,8 +43,8 @@ class Example extends Component {
 
 function mapStateToProps({ example }) {
   return {
-    list: example.list
-  }
+    list: example.list,
+  };
 }
 
 export default withRouter(connect(mapStateToProps)(Example));

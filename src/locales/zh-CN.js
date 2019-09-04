@@ -1,3 +1,3 @@
 export default {
-  'index.start': '开始学习'
-}
+  'index.start': '开始学习',
+};

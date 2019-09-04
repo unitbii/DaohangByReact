@@ -27,6 +27,7 @@ export default {
           /services\//,
           /model\.(t|j)sx?$/,
           /service\.(t|j)sx?$/,
+          /common\//,
           /components\//,
         ],
       },

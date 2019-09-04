@@ -1,17 +1,17 @@
-import queryString from "query-string";
-import copy_to_clipboard from "copy-to-clipboard";
+import queryString from 'query-string';
+import copy_to_clipboard from 'copy-to-clipboard';
 
 // 将obj合并到array
 export const injectColumns = (arr, obj) => {
   let newArr = arr.map(item => {
     const key = item.dataIndex;
     if (obj[key]) {
-      return { ...item, ...obj[key] }
+      return { ...item, ...obj[key] };
     }
     return item;
-  })
+  });
   return newArr;
-}
+};
 
 // 复制：结构中只能包含number，string等常用格式，二进制格式无法复制
 export const copy = obj => {
@@ -21,25 +21,25 @@ export const copy = obj => {
 // 复制到剪切板
 export const copyToClipboard = str => {
   if (copy_to_clipboard(str)) {
-    console.log("复制成功！");
+    console.log('复制成功！');
   } else {
-    console.log("复制失败！");
+    console.log('复制失败！');
   }
 };
 
 /************* Filter *************/
 // 获取数组中的一项
 export const getItemByValue = (arr = [], val = '') => {
-  let newArr = arr.filter(item => item.value === val)
+  let newArr = arr.filter(item => item.value === val);
   return newArr[0];
-}
+};
 
 // 通用过滤对象
 export const objFilter = (obj = {}, filter = () => {}) => {
   let newObj = {};
   for (let i in obj) {
     if (filter(obj[i])) {
-      newObj[i] = obj[i]
+      newObj[i] = obj[i];
     }
   }
   return newObj;
@@ -77,31 +77,28 @@ export const setQueryToUrl = (payload = {}) => {
   let newQuery = Object.assign({}, getQueryByKeys(), payload);
   newQuery = objFilter(newQuery, item => item || item === 0); // item存在或者item等于0
 
-  window.history.replaceState(null, null, "?" + queryString.stringify(newQuery));
+  window.history.replaceState(null, null, '?' + queryString.stringify(newQuery));
 };
 
 /************* Date *************/
 // 时间格式化 "yyyy年M月d日 hh:mm:ss"
-export const dateFtt = (date, fmt="yyyy年M月d日 hh:mm:ss") => {
+export const dateFtt = (date, fmt = 'yyyy年M月d日 hh:mm:ss') => {
   let o = {
-    "M+": date.getMonth() + 1, //月份
-    "d+": date.getDate(), //日
-    "h+": date.getHours(), //小时
-    "m+": date.getMinutes(), //分
-    "s+": date.getSeconds(), //秒
-    "q+": Math.floor((date.getMonth() + 3) / 3), //季度
-    S: date.getMilliseconds() //毫秒
+    'M+': date.getMonth() + 1, //月份
+    'd+': date.getDate(), //日
+    'h+': date.getHours(), //小时
+    'm+': date.getMinutes(), //分
+    's+': date.getSeconds(), //秒
+    'q+': Math.floor((date.getMonth() + 3) / 3), //季度
+    S: date.getMilliseconds(), //毫秒
   };
   if (/(y+)/.test(fmt))
-    fmt = fmt.replace(
-      RegExp.$1,
-      (date.getFullYear() + "").substr(4 - RegExp.$1.length)
-    );
+    fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
   for (let k in o)
-    if (new RegExp("(" + k + ")").test(fmt))
+    if (new RegExp('(' + k + ')').test(fmt))
       fmt = fmt.replace(
         RegExp.$1,
-        RegExp.$1.length === 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length)
+        RegExp.$1.length === 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length),
       );
   return fmt;
 };
@@ -110,14 +107,14 @@ export const dateFtt = (date, fmt="yyyy年M月d日 hh:mm:ss") => {
 // 小数点后两位自动补0
 export const returnFloat = (value = 0) => {
   value = Math.round(parseFloat(value) * 100) / 100 || 0;
-  let xsd = value.toString().split(".");
+  let xsd = value.toString().split('.');
   if (xsd.length === 1) {
-    value = value.toString() + ".00";
+    value = value.toString() + '.00';
     return value;
   }
   if (xsd.length > 1) {
     if (xsd[1].length < 2) {
-      value = value.toString() + "0";
+      value = value.toString() + '0';
     }
     return value;
   }
@@ -129,11 +126,13 @@ export const returnFloat = (value = 0) => {
 export const loadImage = (url, callback) => {
   let img = new Image(); //创建一个Image对象，实现图片的预下载
   img.src = url;
-  if (img.complete) { // 如果图片已经存在于浏览器缓存，直接调用回调函数
+  if (img.complete) {
+    // 如果图片已经存在于浏览器缓存，直接调用回调函数
     callback.call(img);
     return;
   }
-  img.onload = () => { //图片下载完毕时异步调用callback函数。
+  img.onload = () => {
+    //图片下载完毕时异步调用callback函数。
     callback.call(img); //将回调函数的this替换为Image对象
   };
 };
@@ -141,7 +140,7 @@ export const loadImage = (url, callback) => {
 /************* window *************/
 
 //阻止事件冒泡
-export const stopBubble = (e) => {
+export const stopBubble = e => {
   if (e && e.stopPropagation) {
     e.stopPropagation();
   } else {
@@ -158,20 +157,24 @@ export const cpCheck = () => {
   // jQuery("form").on('compositionend', "input,textarea", function(e) {
   //     CPLOCK = false;
   // });
-}
+};
 
 /************* mobile *************/
 
 //检测 屏幕尺寸发生变化
 export const resize = (fn = () => {}) => {
   let prev_ori = window.orientation;
-  window.addEventListener('resize', () => {
-    if (prev_ori !== window.orientation) {
-      prev_ori = window.orientation;
-      fn();
-    } else if (!window.orientation) fn();
-  }, false);
-}
+  window.addEventListener(
+    'resize',
+    () => {
+      if (prev_ori !== window.orientation) {
+        prev_ori = window.orientation;
+        fn();
+      } else if (!window.orientation) fn();
+    },
+    false,
+  );
+};
 
 //判断ios
 export const check_ios = (fn = () => {}) => {
@@ -181,7 +184,7 @@ export const check_ios = (fn = () => {}) => {
     fn();
     return true;
   } else return false;
-}
+};
 
 //判断android
 export const check_android = (fn = () => {}) => {
@@ -191,13 +194,13 @@ export const check_android = (fn = () => {}) => {
     fn();
     return true;
   } else return false;
-}
+};
 
 //判断微信
 export const isWeiXin = (fn = () => {}) => {
   let ua = window.navigator.userAgent.toLowerCase();
-  if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+  if (ua.match(/MicroMessenger/i) === 'micromessenger') {
     fn();
     return true;
   } else return false;
-}
+};

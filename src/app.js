@@ -9,7 +9,7 @@ export const dva = {
   },
 };
 
-export const patchRoutes = (routes) => {
+export const patchRoutes = routes => {
   // console.log(routes);
   // 可以对全部的路由进行操作
   // let route = routes[0].routes
@@ -22,7 +22,7 @@ export const patchRoutes = (routes) => {
   //   component: require('./pages/home').default,
   // });
   // 但使用之后，404页面失效？
-}
+};
 
 export function render(oldRender) {
   // console.log(oldRender);

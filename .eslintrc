@@ -1,3 +1,12 @@
 {
-  "extends": "eslint-config-umi"
+  "extends": ["eslint-config-umi"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "error",
+    // "no-unused-vars": "error",
+    // "eqeqeq": "warn",
+    // "array-callback-ret": "off",
+    // "no-script-url": "off",
+    // "no-restricted-globals": "warn"
+  }
 }

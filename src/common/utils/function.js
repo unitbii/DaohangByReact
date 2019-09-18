@@ -27,12 +27,45 @@ export const copyToClipboard = str => {
   }
 };
 
-/************* Filter *************/
-// 获取数组中的一项
-export const getItemByValue = (arr = [], val = '') => {
-  let newArr = arr.filter(item => item.value === val);
-  return newArr[0];
+/************* number *************/
+// 对数字进行操作，提前进行检查
+export const checkNumber = val => {
+  if (val.isNaN()) {
+    console.error(`${val}: isNaN`);
+    val = 0;
+  } else if (typeof val === 'string') {
+    val = parseFloat(val);
+  }
+  return val;
 };
+
+// js运算会产生无穷小数，所有的运算都应该收敛,收敛时需要知道截取位数
+export const astringe = (val, n = 2) => {
+  val = checkNumber(val);
+  return parseFloat(val.toFixed(n));
+};
+
+// 小数点后两位自动补0，返回string（主要用于价格展示）
+export const getPrice = (val, n = 2) => {
+  val = checkNumber(val);
+  let price = parseFloat(val).toFixed(n);
+  return price;
+};
+
+// 判断百分比
+export const percentage = val => {
+  if (typeof val === 'string' && val.indexOf('%') !== -1) {
+    const num = parseFloat(val.split('%'));
+    return num / 100;
+  } else if (typeof val === 'number' && (val >= 0 && val <= 1)) {
+    return val;
+  }
+  return false;
+};
+
+/************* Object Filter *************/
+// 获取数组中的一项，比如key为val(作为示范保留)
+// return arr.filter(item => item["key"] === val)[0]
 
 // 通用过滤对象
 export const objFilter = (obj = {}, filter = () => {}) => {
@@ -102,24 +135,6 @@ export const dateFtt = (date, fmt = 'yyyy年M月d日 hh:mm:ss') => {
       );
   return fmt;
 };
-
-/************* Price *************/
-// 小数点后两位自动补0
-export const returnFloat = (value = 0) => {
-  value = Math.round(parseFloat(value) * 100) / 100 || 0;
-  let xsd = value.toString().split('.');
-  if (xsd.length === 1) {
-    value = value.toString() + '.00';
-    return value;
-  }
-  if (xsd.length > 1) {
-    if (xsd[1].length < 2) {
-      value = value.toString() + '0';
-    }
-    return value;
-  }
-};
-// 小数点后N位自动补0
 
 /************* image *************/
 // 图片加载之后执行

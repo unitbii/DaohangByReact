@@ -1,13 +1,13 @@
 /**
  * title: Example Page
  */
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'dva';
 import { withRouter } from 'react-router-dom';
 import ProductList from './common/ProductList';
 import styles from './styles.less';
 
-class Example extends Component {
+class Example extends React.Component {
   static defaultProps = {
     text: '',
   };

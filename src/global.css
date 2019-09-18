@@ -3,3 +3,7 @@
 ol, ul {
   list-style: none;
 }
+
+#root {
+  height: 100%;
+}

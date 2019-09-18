@@ -1,16 +1,16 @@
-import styles from './index.css';
+import config from '@/common/config';
+
+import SimpleLayout from './common/SimpleLayout';
+import DefaultLayout from './common/DefaultLayout';
+
+const { SimpleLayoutList } = config;
 
 function BasicLayout(props) {
-  // if (props.location.pathname === '/login') {
-  //   return <SimpleLayout>{ props.children }</SimpleLayout>
-  // }
+  if (SimpleLayoutList.indexOf(props.location.pathname) !== -1) {
+    return <SimpleLayout>{props.children}</SimpleLayout>;
+  }
 
-  return (
-    <div>
-      <h1 className={styles.title}>Yay! Welcome to umi!</h1>
-      {props.children}
-    </div>
-  );
+  return <DefaultLayout>{props.children}</DefaultLayout>;
 }
 
 export default BasicLayout;

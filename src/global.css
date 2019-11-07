@@ -3,7 +3,13 @@
 ol, ul {
   list-style: none;
 }
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder{
+  color:#999;
+}
 
 #root {
   height: 100%;
 }
+
+@import "./assets/styles/index.less";

@@ -64,6 +64,11 @@ export const percentage = val => {
 };
 
 /************* Object Filter *************/
+// 判断是否为对象
+export const isObject = val => {
+  return Object.prototype.toString.call(val) === '[object Object]';
+};
+
 // 获取数组中的一项，比如key为val(作为示范保留)
 // return arr.filter(item => item["key"] === val)[0]
 
